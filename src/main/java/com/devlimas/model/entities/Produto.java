@@ -27,4 +27,12 @@ public class Produto {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
+
+    public Produto() {
+    }
+
+    public Produto(String nomeProduto, BigDecimal preco) {
+        this.nomeProduto = nomeProduto;
+        this.preco = preco;
+    }
 }

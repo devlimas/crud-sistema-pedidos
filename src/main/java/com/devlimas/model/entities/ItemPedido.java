@@ -1,12 +1,10 @@
 package com.devlimas.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Setter
 @Getter
@@ -25,7 +23,7 @@ public class ItemPedido {
     private int quantidade;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal preco;
+    private BigDecimal valorTotal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
@@ -34,4 +32,17 @@ public class ItemPedido {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
+
+    public ItemPedido() {
+    }
+
+    public ItemPedido(int quantidade, Pedido pedido, Produto produto) {
+        this.quantidade = quantidade;
+        this.pedido = pedido;
+        this.produto = produto;
+    }
+
+    public void valorTotalItem(){
+        this.valorTotal = this.produto.getPreco().multiply(BigDecimal.valueOf(quantidade)).setScale(2, RoundingMode.HALF_UP);
+    }
 }
