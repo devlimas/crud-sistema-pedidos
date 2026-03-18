@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 @Getter
 
 @Entity
-@Table(name = "produtos")
+@Table(name = "products")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Produto {
+public class Product {
 
     @Id
     @Setter(AccessLevel.NONE)
@@ -22,17 +22,17 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_produto", nullable = false, length = 100)
-    private String nomeProduto;
+    @Column(name = "product_name", nullable = false, length = 100)
+    private String productName;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal preco;
+    private BigDecimal price;
 
-    public Produto() {
+    public Product() {
     }
 
-    public Produto(String nomeProduto, BigDecimal preco) {
-        this.nomeProduto = nomeProduto;
-        this.preco = preco;
+    public Product(String productName, BigDecimal price) {
+        this.productName = productName;
+        this.price = price;
     }
 }

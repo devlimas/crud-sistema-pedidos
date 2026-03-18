@@ -1,7 +1,6 @@
 package com.devlimas.model.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +11,9 @@ import java.util.List;
 @ToString(onlyExplicitlyIncluded = true)
 
 @Entity
-@Table(name = "clientes")
+@Table(name = "customers")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cliente {
+public class Customer {
 
     @Id
     @ToString.Include
@@ -25,28 +24,28 @@ public class Cliente {
 
     @Column(nullable = false, length = 100)
     @ToString.Include
-    private String nome;
+    private String name;
 
     @Column(nullable = false ,length = 11, unique = true)
     private String cpf;
 
     @Column(nullable = false)
-    private LocalDate dataAniversario;
+    private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //O mapeamento usa de referencia o nome do atributo Cliente na classe Pedido
-    private List<Pedido> pedidos = new ArrayList<>();
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //O mapeamento usa de referencia o nome do atributo Customer na classe Order
+    private List<Order> orders = new ArrayList<>();
 
-    public Cliente() {
+    public Customer() {
     }
 
-    public Cliente(String nome, String cpf, LocalDate dataAniversario) {
-        this.nome = nome;
+    public Customer(String name, String cpf, LocalDate birthDate) {
+        this.name = name;
         this.cpf = cpf;
-        this.dataAniversario = dataAniversario;
+        this.birthDate = birthDate;
     }
 
-    public void adicionarPedido(Pedido pedido){
-        pedidos.add(pedido);
-        pedido.setCliente(this);
+    public void addOrder(Order order){
+        orders.add(order);
+        order.setCustomer(this);
     }
 }

@@ -2,7 +2,6 @@ package com.devlimas.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,10 +15,10 @@ import java.util.List;
 @ToString(onlyExplicitlyIncluded = true)
 
 @Entity
-@Table(name = "pedidos")
+@Table(name = "customer_orders")
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Pedido {
+public class Order {
 
     @Id
     @ToString.Include
@@ -30,37 +29,37 @@ public class Pedido {
 
     @CreatedDate
     @ToString.Include
-    private LocalDate dataDoPedido;
+    private LocalDate orderDate;
 
     @Column(nullable = false, precision = 10, scale = 2)
     @ToString.Include
     private BigDecimal total;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = false) //nome do atributo+_id
-    private Cliente cliente;
+    @JoinColumn(name = "customer_id", nullable = false) //nome do atributo+_id
+    private Customer customer;
 
-    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemPedido> itens = new ArrayList<>();
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
 
-    public Pedido() {
+    public Order() {
     }
 
-    public Pedido(Cliente cliente) {
-        this.cliente = cliente;
+    public Order(Customer customer) {
+        this.customer = customer;
     }
 
-    public void recalcularValorTotal(){
-        this.total = itens.stream().map(ItemPedido::getValorTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+    public void recalculateTotalAmount(){
+        this.total = items.stream().map(OrderItem::getTotalValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void adicionarItemPedido(ItemPedido item){
-        itens.add(item);
-        item.setPedido(this);
+    public void addOrderItem(OrderItem item){
+        items.add(item);
+        item.setOrder(this);
     }
 
-    public void removeItemPedido(ItemPedido item){
-        itens.remove(item);
-        item.setPedido(null);
+    public void removeOrderItem(OrderItem item){
+        items.remove(item);
+        item.setOrder(null);
     }
 }

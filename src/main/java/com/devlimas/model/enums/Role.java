@@ -1,6 +1,6 @@
 package com.devlimas.model.enums;
 
-public enum Regra {
+public enum Role {
     cliente,
     administrador
 }
