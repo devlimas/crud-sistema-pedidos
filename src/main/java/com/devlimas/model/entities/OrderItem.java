@@ -8,21 +8,25 @@ import java.math.RoundingMode;
 
 @Setter
 @Getter
+@ToString(onlyExplicitlyIncluded = true)
 
 @Entity
 @Table(name = "order_items")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderItem {
     @Id
+    @ToString.Include
     @Setter(AccessLevel.NONE)
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
+    @ToString.Include
     private int quantity;
 
     @Column(nullable = false, precision = 10, scale = 2)
+    @ToString.Include
     private BigDecimal totalValue;
 
     @ManyToOne(fetch = FetchType.LAZY)

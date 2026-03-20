@@ -30,6 +30,7 @@ public class Customer {
     private String cpf;
 
     @Column(nullable = false)
+    @ToString.Include
     private LocalDate birthDate;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //O mapeamento usa de referencia o nome do atributo Customer na classe Order
