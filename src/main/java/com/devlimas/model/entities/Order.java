@@ -1,6 +1,7 @@
 package com.devlimas.model.entities;
 
 import com.devlimas.model.enums.OrderStatus;
+import com.devlimas.model.enums.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -29,6 +30,7 @@ public class Order {
     private Long id;
 
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     @ToString.Include
     private LocalDate orderDate;
 
@@ -37,8 +39,14 @@ public class Order {
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     @ToString.Include
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PROCESSING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @ToString.Include
+    private Payment payment = Payment.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false) //nome do atributo+_id
