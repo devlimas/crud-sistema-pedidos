@@ -41,12 +41,12 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @ToString.Include
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @ToString.Include
-    private Payment payment;
+    private Payment payment = Payment.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false) //nome do atributo+_id
