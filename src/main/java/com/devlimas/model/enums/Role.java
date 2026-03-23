@@ -1,6 +1,6 @@
 package com.devlimas.model.enums;
 
 public enum Role {
-    cliente,
-    administrador
+    ROLE_USER,
+    ROLE_ADMIN
 }

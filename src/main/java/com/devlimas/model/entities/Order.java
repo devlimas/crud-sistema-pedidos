@@ -1,5 +1,6 @@
 package com.devlimas.model.entities;
 
+import com.devlimas.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,6 +36,10 @@ public class Order {
     @ToString.Include
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
+    @ToString.Include
+    private OrderStatus orderStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false) //nome do atributo+_id
     private Customer customer;
@@ -49,6 +54,8 @@ public class Order {
         this.customer = customer;
     }
 
+    @PrePersist
+    @PreUpdate
     public void recalculateTotalAmount(){
         this.total = items.stream().map(OrderItem::getTotalValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
